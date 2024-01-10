@@ -20,7 +20,7 @@ public class Order {
     @GeneratedValue
     private Integer id;
     private String name;
-    private String tpye_menu;
-    private double price;
+    private String food_type;
+    private Double price;
     private String image;
 }

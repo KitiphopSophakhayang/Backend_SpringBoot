@@ -44,7 +44,7 @@ public class OrderService {
     public Order updatOrder(Order order){
         Order existingOrder = repository.findById(order.getId()).orElse(null);
         existingOrder.setName(order.getName());
-        existingOrder.setTpye_menu(order.getTpye_menu());
+        existingOrder.setFood_type(order.getFood_type());
         existingOrder.setPrice(order.getPrice());
         existingOrder.setImage(order.getImage());
         return repository.save(existingOrder);
