@@ -35,12 +35,12 @@ public class OrderController {
         return service.getOrders();
     }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/orderById/{id}")
     public Order findIOrderById(@PathVariable int id) {
         return service.getOrdersById(id);
     }
 
-    @GetMapping("/order/{name}")
+    @GetMapping("/orderByName/{name}")
     public Order findIOrderByName(@PathVariable String name) {
         return service.getOrdersByName(name);
     }
