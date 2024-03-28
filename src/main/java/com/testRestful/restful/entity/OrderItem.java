@@ -3,6 +3,7 @@ package com.testRestful.restful.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class OrderItem {
     private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "menu_id")
     private Order order;
 
     private Date orderDate;
@@ -36,8 +37,11 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "table_id")
     private DiningTable table;
-    
+
     private String status;
 
     private int quantity;
+
+    private String transactionId = UUID.randomUUID().toString();
+
 }

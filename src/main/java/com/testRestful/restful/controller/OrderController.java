@@ -195,19 +195,19 @@ public class OrderController {
     }
 
 // OrderController.java
-@PutMapping("/update/{id}")
-public ResponseEntity<Order> updateOrder(@PathVariable("id") Integer id, @ModelAttribute Order order, @RequestParam("file") MultipartFile file) {
-    try {
-        if (file != null && !file.isEmpty()) {
-            order.setFilename(file.getOriginalFilename());
-            order.setData(file.getBytes());
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable("id") Integer id, @ModelAttribute Order order, @RequestParam("file") MultipartFile file) {
+        try {
+            if (file != null && !file.isEmpty()) {
+                order.setFilename(file.getOriginalFilename());
+                order.setData(file.getBytes());
+            }
+            Order updatedOrder = service.updateOrder(id, order, file); // แก้ไขตรงนี้
+            return ResponseEntity.ok(updatedOrder);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        Order updatedOrder = service.updateOrder(id, order, file); // แก้ไขตรงนี้
-        return ResponseEntity.ok(updatedOrder);
-    } catch (IOException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-}
 
     
 
