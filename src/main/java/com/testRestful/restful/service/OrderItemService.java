@@ -78,7 +78,9 @@ import com.testRestful.restful.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderItemService {
@@ -112,4 +114,20 @@ public class OrderItemService {
     public List<OrderItem> getTableIdAndStatus(Long tableId) {
         return orderItemRepository.getTableIdAndStatus(tableId);
     }
+
+    public Object getTotalPrice() {
+        Object result = orderItemRepository.getTotalPrice();
+        Map<String, Object> dayTotalPrice = new HashMap<>();
+        dayTotalPrice.put("result", result);
+        return dayTotalPrice;
+    }
+
+    public Integer getAllTotalPrice() {
+        return orderItemRepository.getAllTotalPrice();
+    }
+    
+    public Integer getAllOrder() {
+        return orderItemRepository.getAllOrder();
+    }
 }
+
