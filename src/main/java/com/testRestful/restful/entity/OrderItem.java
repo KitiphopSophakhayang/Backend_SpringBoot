@@ -44,4 +44,6 @@ public class OrderItem {
 
     private String transactionId = UUID.randomUUID().toString();
 
+    private String receipt;
+
 }
