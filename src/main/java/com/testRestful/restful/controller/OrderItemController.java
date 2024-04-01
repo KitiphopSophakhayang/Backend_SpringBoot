@@ -66,8 +66,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 public class OrderItemController {
@@ -106,6 +104,20 @@ public class OrderItemController {
     public List<OrderItem> getTableIdAndStatus(@PathVariable("id") Long tableId) {
         return orderItemService.getTableIdAndStatus(tableId);
     }
+   
+    @GetMapping("/orderItems/getTotalPrice")
+    public Object getTotalPrice() {
+        return orderItemService.getTotalPrice();
+    }
 
+    @GetMapping("/orderItems/getAllTotalPrice")
+    public Object getAllTotalPrice() {
+        return orderItemService.getAllTotalPrice();
+    }
+
+    @GetMapping("/orderItems/getAllOrder")
+    public Object getAllOrder() {
+        return orderItemService.getAllOrder();
+    }
     
 }

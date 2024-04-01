@@ -194,6 +194,11 @@ public class OrderController {
         return service.getOrdersByName(name);
     }
 
+    @GetMapping("/getAllMenu")
+    public Integer getAllMenu() {
+        return service.getAllMenu();
+    }
+
 // OrderController.java
     @PutMapping("/update/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable("id") Integer id, @ModelAttribute Order order, @RequestParam("file") MultipartFile file) {

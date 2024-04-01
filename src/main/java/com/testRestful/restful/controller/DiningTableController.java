@@ -32,5 +32,8 @@ public class DiningTableController {
         return ResponseEntity.ok(diningTableService.getTableById(id));
     }
 
-    
+    @GetMapping("/tables/allTable")
+    public Integer getAllTable() {
+        return diningTableService.getAllTable();
+    }
 }

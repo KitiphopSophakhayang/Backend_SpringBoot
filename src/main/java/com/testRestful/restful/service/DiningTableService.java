@@ -28,6 +28,7 @@ public class DiningTableService {
         return optionalOrder.get();
     }
 
-    // สามารถเพิ่มเมธอดเพื่อดึงข้อมูลโต๊ะตามความต้องการเพิ่มเติมได้
-
+    public Integer getAllTable() {
+        return diningTableRepository.getAllTable();
+    }
 }
