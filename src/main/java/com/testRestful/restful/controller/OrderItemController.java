@@ -54,6 +54,8 @@ package com.testRestful.restful.controller;
 import com.testRestful.restful.entity.OrderItem;
 import com.testRestful.restful.models.Top5MenuList;
 import com.testRestful.restful.service.OrderItemService;
+
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -129,4 +131,8 @@ public class OrderItemController {
         return orderItemService.getTop5MenuList();
     }
 
+    @GetMapping("/orderItems/getOrderStatus")
+    public List<OrderItem> getOrderStatus(@Param("status") String status) {
+        return orderItemService.getOrderStatus(status);
+    }
 }
