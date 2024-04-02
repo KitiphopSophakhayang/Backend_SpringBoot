@@ -34,7 +34,7 @@
 //         orderItemService.saveOrderItems(orderItems, transactionId); // เรียกใช้เมธอด saveOrderItems พร้อมส่ง transactionId มาด้วย
 //         return new ResponseEntity<>("Order items added successfully", HttpStatus.CREATED);
 //     }
-    
+
 //     @GetMapping("/orderItems")
 //     public ResponseEntity<List<OrderItem>> getOrderItems() {
 //         List<OrderItem> orderItems = orderItemService.getAllOrderItems();
@@ -49,11 +49,11 @@
 
 // }
 
-
 package com.testRestful.restful.controller;
 
 import com.testRestful.restful.entity.OrderItem;
 import com.testRestful.restful.models.DailyTotalPrice;
+import com.testRestful.restful.models.Top5MenuList;
 import com.testRestful.restful.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -86,10 +86,11 @@ public class OrderItemController {
         for (OrderItem orderItem : orderItems) {
             orderItem.setOrderDate(new Date());
         }
-        orderItemService.saveOrderItems(orderItems, transactionId); // เรียกใช้เมธอด saveOrderItems พร้อมส่ง transactionId มาด้วย
+        orderItemService.saveOrderItems(orderItems, transactionId); // เรียกใช้เมธอด saveOrderItems พร้อมส่ง
+                                                                    // transactionId มาด้วย
         return new ResponseEntity<>("Order items added successfully", HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/orderItems")
     public ResponseEntity<List<OrderItem>> getOrderItems() {
         List<OrderItem> orderItems = orderItemService.getAllOrderItems();
@@ -102,16 +103,15 @@ public class OrderItemController {
         return new ResponseEntity<>(orderItems, HttpStatus.OK);
     }
 
-    
     @GetMapping("/orderItems/getTableData/{id}")
     public List<OrderItem> getTableIdAndStatus(@PathVariable("id") Long tableId) {
         return orderItemService.getTableIdAndStatus(tableId);
     }
-   
-    @GetMapping("/orderItems/getTotalPriceByWeekAndGetDayName")
-    public List<DailyTotalPrice> getTotalPriceByWeek() {
-        return orderItemService.getTotalPriceByWeekAndGetDayName();
-    }
+
+    // @GetMapping("/orderItems/getTotalPriceByWeekAndGetDayName")
+    // public List<DailyTotalPrice> getTotalPriceByWeek() {
+    // return orderItemService.getTotalPriceByWeekAndGetDayName();
+    // }
 
     @GetMapping("/orderItems/getAllTotalPrice")
     public Object getAllTotalPrice() {
@@ -127,5 +127,10 @@ public class OrderItemController {
     public Map<String, String> getTotalPriceByDateInOneWeek() {
         return orderItemService.getTotalPriceByDateInOneWeek();
     }
-    
+
+    @GetMapping("/orderItems/getTop5MenuList")
+    public List<Top5MenuList> getTop5MenuList() {
+        return orderItemService.getTop5MenuList();
+    }
+
 }

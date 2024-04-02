@@ -1,25 +1,13 @@
-// package com.testRestful.restful.repository;
-
-// import com.testRestful.restful.entity.OrderItem;
-// import org.springframework.data.jpa.repository.JpaRepository;
-// import org.springframework.stereotype.Repository;
-
-// @Repository
-// public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
-//     // คุณสามารถเพิ่มเมธอดเพิ่มเติมที่ต้องการสำหรับการจัดการข้อมูลในตาราง order_item ได้ที่นี่
-// }
-
 package com.testRestful.restful.repository;
 
 import com.testRestful.restful.entity.OrderItem;
+import com.testRestful.restful.models.Top5MenuList;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 
@@ -63,5 +51,24 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
                 oi.order_date;
             """, nativeQuery = true)
     List<Object[]> getTotalPriceByDateInOneWeek();
-
+    
+    @Query(value = 
+            """
+            select
+                m.name as menu_name,
+                SUM(oi.quantity) as total_ordered_quantity
+            from
+                order_item oi
+            join order_menu m on
+                oi.menu_id = m.menu_id
+            where
+                m.name != 'น้ำเปล่า'
+            group by
+                m.menu_id,
+                m.name
+            order by
+                total_ordered_quantity desc
+            limit 5;
+            """, nativeQuery = true)
+    List<Object[]> getTop5MenuList();
 }

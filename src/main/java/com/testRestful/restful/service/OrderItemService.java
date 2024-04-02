@@ -2,19 +2,20 @@ package com.testRestful.restful.service;
 
 import com.testRestful.restful.entity.OrderItem;
 import com.testRestful.restful.models.DailyTotalPrice;
+import com.testRestful.restful.models.Top5MenuList;
 import com.testRestful.restful.repository.OrderItemRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 @Service
 public class OrderItemService {
@@ -54,14 +55,14 @@ public class OrderItemService {
             double totalPrice = (double) row[1];
             dailyTotalPrices.add(new DailyTotalPrice(dayOfWeek, totalPrice));
         }
-        
+
         return dailyTotalPrices;
     }
 
     public Integer getAllTotalPrice() {
         return orderItemRepository.getAllTotalPrice();
     }
-    
+
     public Integer getAllOrder() {
         return orderItemRepository.getAllOrder();
     }
@@ -82,5 +83,20 @@ public class OrderItemService {
         return afterFormat;
     }
 
+    public List<Top5MenuList> getTop5MenuList() {
+        List<Object[]> result = orderItemRepository.getTop5MenuList();
+        List<Top5MenuList> top5MenuList = new ArrayList<>();
+
+        for (Object[] row : result) {
+            String menuName = (String) row[0];
+            BigDecimal totalOrderedQuantity = (BigDecimal) row[1];
+            Integer newVal = totalOrderedQuantity.intValue();
+
+            Top5MenuList menu = new Top5MenuList(menuName, newVal);
+            top5MenuList.add(menu);
+        }
+
+        return top5MenuList;
+    }
 
 }
