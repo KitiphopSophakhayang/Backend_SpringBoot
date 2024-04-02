@@ -1,10 +1,7 @@
 package com.testRestful.restful.service;
 
 import com.testRestful.restful.entity.DiningTable;
-import com.testRestful.restful.entity.Order;
-import com.testRestful.restful.entity.OrderItem;
 import com.testRestful.restful.repository.DiningTableRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +11,6 @@ public class DiningTableService {
 
     private final DiningTableRepository diningTableRepository;
 
-    @Autowired
     public DiningTableService(DiningTableRepository diningTableRepository) {
         this.diningTableRepository = diningTableRepository;
     }

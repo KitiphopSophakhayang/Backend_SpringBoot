@@ -166,11 +166,11 @@ public class OrderItemController {
         return orderItemService.getTableIdAndStatus(tableId);
     }   
     
-   
-    @GetMapping("/orderItems/getTotalPrice")
-    public Object getTotalPrice() {
-        return orderItemService.getTotalPrice();
-    }
+
+    // @GetMapping("/orderItems/getTotalPriceByWeekAndGetDayName")
+    // public List<DailyTotalPrice> getTotalPriceByWeek() {
+    // return orderItemService.getTotalPriceByWeekAndGetDayName();
+    // }
 
     @GetMapping("/orderItems/getAllTotalPrice")
     public Object getAllTotalPrice() {
