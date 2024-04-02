@@ -38,15 +38,15 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     Integer getAllOrder();
 
     @Query(value = """
-            select
-                oi.order_date as order_date,
-                SUM(oi.total_price) as total_price
-            from
-                order_item oi
-            where
-                oi.order_date >= CURRENT_DATE() - interval 8 day
-            group by
-                oi.order_date;
+        select
+            date(oi.order_date) as order_date,
+            SUM(oi.total_price) as total_price
+        from
+            order_item oi
+        where
+            oi.order_date >= CURRENT_DATE() - interval 7 day
+        group by
+            date(oi.order_date);
             """, nativeQuery = true)
     List<Object[]> getTotalPriceByDateInOneWeek();
 
