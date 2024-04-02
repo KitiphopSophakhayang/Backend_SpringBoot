@@ -113,8 +113,11 @@
 package com.testRestful.restful.controller;
 
 import com.testRestful.restful.entity.OrderItem;
+import com.testRestful.restful.models.Top5MenuList;
 import com.testRestful.restful.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -125,6 +128,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -182,6 +186,21 @@ public class OrderItemController {
         return orderItemService.getAllOrder();
     }
     
+
+    @GetMapping("/orderItems/getTotalPriceByDateInOneWeek")
+    public Map<String, String> getTotalPriceByDateInOneWeek() {
+        return orderItemService.getTotalPriceByDateInOneWeek();
+    }
+
+    @GetMapping("/orderItems/getTop5MenuList")
+    public List<Top5MenuList> getTop5MenuList() {
+        return orderItemService.getTop5MenuList();
+    }
+
+    @GetMapping("/orderItems/getOrderStatus")
+    public List<OrderItem> getOrderStatus(@Param("status") String status) {
+        return orderItemService.getOrderStatus(status);
+    }
 }
 
 

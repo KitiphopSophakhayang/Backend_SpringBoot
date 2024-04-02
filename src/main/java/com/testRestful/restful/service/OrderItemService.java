@@ -173,5 +173,13 @@ public class OrderItemService {
         return top5MenuList;
     }
 
+    public List<OrderItem> getOrderStatus(String status) {
+        if (status.equals("pending")) {
+            return orderItemRepository.getOrderPending();
+        } else {
+            return orderItemRepository.getOrderSuccess();
+        }
+    }
+
 }
 

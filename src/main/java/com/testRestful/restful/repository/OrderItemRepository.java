@@ -37,8 +37,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query(value = "select COUNT(oi.order_item_id) from order_item oi", nativeQuery = true)
     Integer getAllOrder();
 
-    @Query(value = 
-            """
+    @Query(value = """
             select
                 oi.order_date as order_date,
                 SUM(oi.total_price) as total_price
@@ -50,9 +49,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
                 oi.order_date;
             """, nativeQuery = true)
     List<Object[]> getTotalPriceByDateInOneWeek();
-    
-    @Query(value = 
-            """
+
+    @Query(value = """
             select
                 m.name as menu_name,
                 SUM(oi.quantity) as total_ordered_quantity
@@ -70,4 +68,11 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             limit 5;
             """, nativeQuery = true)
     List<Object[]> getTop5MenuList();
+
+    @Query(value = "select * from order_item oi where oi.status = 'pending' limit 10", nativeQuery = true)
+    List<OrderItem> getOrderPending();
+
+    @Query(value = "select * from order_item oi where oi.status = 'success' limit 10", nativeQuery = true)
+    List<OrderItem> getOrderSuccess();
+
 }
