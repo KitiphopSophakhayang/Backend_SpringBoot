@@ -1,7 +1,6 @@
 package com.testRestful.restful.repository;
 
 import com.testRestful.restful.entity.OrderItem;
-import com.testRestful.restful.models.Top5MenuList;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -52,10 +52,8 @@
 package com.testRestful.restful.controller;
 
 import com.testRestful.restful.entity.OrderItem;
-import com.testRestful.restful.models.DailyTotalPrice;
 import com.testRestful.restful.models.Top5MenuList;
 import com.testRestful.restful.service.OrderItemService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +65,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -75,7 +72,6 @@ public class OrderItemController {
 
     private final OrderItemService orderItemService;
 
-    @Autowired
     public OrderItemController(OrderItemService orderItemService) {
         this.orderItemService = orderItemService;
     }

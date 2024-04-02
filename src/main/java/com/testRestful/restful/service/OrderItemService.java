@@ -5,11 +5,9 @@ import com.testRestful.restful.models.DailyTotalPrice;
 import com.testRestful.restful.models.Top5MenuList;
 import com.testRestful.restful.repository.OrderItemRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
-    @Autowired
     public OrderItemService(OrderItemRepository orderItemRepository) {
         this.orderItemRepository = orderItemRepository;
     }
