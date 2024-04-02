@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 
@@ -41,11 +42,26 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             group by
             	DAYNAME(oi.order_date)
             """, nativeQuery = true)
-    Object getTotalPrice();
+    List<Object[]> getTotalPriceByWeekAndGetDayName();
 
     @Query(value = "select SUM(oi.total_price) from order_item oi", nativeQuery = true)
     Integer getAllTotalPrice();
-    
+
     @Query(value = "select COUNT(oi.order_item_id) from order_item oi", nativeQuery = true)
     Integer getAllOrder();
+
+    @Query(value = 
+            """
+            select
+                oi.order_date as order_date,
+                SUM(oi.total_price) as total_price
+            from
+                order_item oi
+            where
+                oi.order_date >= CURRENT_DATE() - interval 8 day
+            group by
+                oi.order_date;
+            """, nativeQuery = true)
+    List<Object[]> getTotalPriceByDateInOneWeek();
+
 }

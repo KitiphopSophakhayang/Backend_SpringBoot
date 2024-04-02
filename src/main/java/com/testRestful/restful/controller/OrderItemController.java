@@ -53,6 +53,7 @@
 package com.testRestful.restful.controller;
 
 import com.testRestful.restful.entity.OrderItem;
+import com.testRestful.restful.models.DailyTotalPrice;
 import com.testRestful.restful.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,6 +66,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -105,9 +108,9 @@ public class OrderItemController {
         return orderItemService.getTableIdAndStatus(tableId);
     }
    
-    @GetMapping("/orderItems/getTotalPrice")
-    public Object getTotalPrice() {
-        return orderItemService.getTotalPrice();
+    @GetMapping("/orderItems/getTotalPriceByWeekAndGetDayName")
+    public List<DailyTotalPrice> getTotalPriceByWeek() {
+        return orderItemService.getTotalPriceByWeekAndGetDayName();
     }
 
     @GetMapping("/orderItems/getAllTotalPrice")
@@ -118,6 +121,11 @@ public class OrderItemController {
     @GetMapping("/orderItems/getAllOrder")
     public Object getAllOrder() {
         return orderItemService.getAllOrder();
+    }
+
+    @GetMapping("/orderItems/getTotalPriceByDateInOneWeek")
+    public Map<String, String> getTotalPriceByDateInOneWeek() {
+        return orderItemService.getTotalPriceByDateInOneWeek();
     }
     
 }
