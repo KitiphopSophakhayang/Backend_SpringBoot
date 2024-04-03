@@ -2,6 +2,7 @@ package com.testRestful.restful.controller;
 
 import com.testRestful.restful.entity.OrderItem;
 import com.testRestful.restful.models.Top5MenuList;
+import com.testRestful.restful.models.UpdOrderStatusBean;
 import com.testRestful.restful.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 public class OrderItemController {
@@ -58,7 +61,6 @@ public class OrderItemController {
         return orderItemService.getTableIdAndStatus(tableId);
     }   
     
-
     // @GetMapping("/orderItems/getTotalPriceByWeekAndGetDayName")
     // public List<DailyTotalPrice> getTotalPriceByWeek() {
     // return orderItemService.getTotalPriceByWeekAndGetDayName();
@@ -87,6 +89,12 @@ public class OrderItemController {
     @GetMapping("/orderItems/getOrderStatus")
     public List<OrderItem> getOrderStatus(@Param("status") String status) {
         return orderItemService.getOrderStatus(status);
+    }
+
+    @PutMapping("/orderItems/updateOrderStatus")
+    @ResponseStatus(HttpStatus.CREATED) 
+    public Boolean updateOrderStatus(@RequestBody UpdOrderStatusBean updOrderStatusBean) {
+        return orderItemService.updateOrderStatus(updOrderStatusBean.getStatus(), updOrderStatusBean.getOrderItemId());
     }
 }
 
