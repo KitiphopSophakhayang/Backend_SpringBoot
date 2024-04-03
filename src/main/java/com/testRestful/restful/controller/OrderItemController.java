@@ -73,7 +73,6 @@ public class OrderItemController {
     public Object getAllOrder() {
         return orderItemService.getAllOrder();
     }
-    
 
     @GetMapping("/orderItems/getTotalPriceByDateInOneWeek")
     public Map<String, String> getTotalPriceByDateInOneWeek() {
