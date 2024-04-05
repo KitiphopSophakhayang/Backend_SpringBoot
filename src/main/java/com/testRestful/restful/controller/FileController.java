@@ -40,25 +40,24 @@ public class FileController {
     // }
     // }
 
-  // FileController.java
+    // FileController.java
 
-@PostMapping("/upload")
-public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
-    try {
-        // สร้าง FileEntity และบันทึกข้อมูลไฟล์
-        FileEntity fileEntity = new FileEntity();
-        fileEntity.setFilename(file.getOriginalFilename());
-        fileEntity.setData(file.getBytes());
-        fileRepository.save(fileEntity);
-        
-        String message = "File uploaded successfully!";
-        HttpStatus httpStatus = HttpStatus.CREATED;
-        return new ResponseEntity<>(message, httpStatus);
-    } catch (IOException e) {
-        return ResponseEntity.status(500).build();
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            // สร้าง FileEntity และบันทึกข้อมูลไฟล์
+            FileEntity fileEntity = new FileEntity();
+            fileEntity.setFilename(file.getOriginalFilename());
+            fileEntity.setData(file.getBytes());
+            fileRepository.save(fileEntity);
+
+            String message = "File uploaded successfully!";
+            HttpStatus httpStatus = HttpStatus.CREATED;
+            return new ResponseEntity<>(message, httpStatus);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).build();
+        }
     }
-}
-
 
     @GetMapping("/files")
     public ResponseEntity<List<FileEntity>> getFile() {

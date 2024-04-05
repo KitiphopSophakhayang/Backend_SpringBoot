@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 @RestController
 public class OrderItemController {
 
@@ -40,10 +39,11 @@ public class OrderItemController {
             orderItem.setOrderDate(new Date());
             orderItem.setTransactionId(transactionId); // กำหนด transactionId ให้กับ OrderItem ทุกรายการ
         }
-        orderItemService.saveOrderItems(orderItems, transactionId); // เรียกใช้เมธอด saveOrderItems พร้อมส่ง transactionId มาด้วย
+        orderItemService.saveOrderItems(orderItems, transactionId); // เรียกใช้เมธอด saveOrderItems พร้อมส่ง
+                                                                    // transactionId มาด้วย
         return new ResponseEntity<>("Order items added successfully", HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/orderItems")
     public ResponseEntity<List<OrderItem>> getOrderItems() {
         List<OrderItem> orderItems = orderItemService.getAllOrderItems();
@@ -59,8 +59,8 @@ public class OrderItemController {
     @GetMapping("/orderItems/getTableData/{id}")
     public List<OrderItem> getTableIdAndStatus(@PathVariable("id") Long tableId) {
         return orderItemService.getTableIdAndStatus(tableId);
-    }   
-    
+    }
+
     // @GetMapping("/orderItems/getTotalPriceByWeekAndGetDayName")
     // public List<DailyTotalPrice> getTotalPriceByWeek() {
     // return orderItemService.getTotalPriceByWeekAndGetDayName();
@@ -92,10 +92,8 @@ public class OrderItemController {
     }
 
     @PutMapping("/orderItems/updateOrderStatus")
-    @ResponseStatus(HttpStatus.CREATED) 
+    @ResponseStatus(HttpStatus.CREATED)
     public Boolean updateOrderStatus(@RequestBody UpdOrderStatusBean updOrderStatusBean) {
         return orderItemService.updateOrderStatus(updOrderStatusBean.getStatus(), updOrderStatusBean.getOrderItemId());
     }
 }
-
-
