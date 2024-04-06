@@ -22,9 +22,6 @@
 // import com.testRestful.restful.entity.Order;
 // import com.testRestful.restful.service.OrderService;
 
-
-
-
 // @RestController
 // public class OrderController {
 
@@ -42,7 +39,6 @@
 //             return null; // หรือจัดการข้อผิดพลาดอื่น ๆ ตามที่คุณต้องการ
 //         }
 //     }
-    
 
 //     @PostMapping("/addOrders")
 //     public List<Order> addOrders(@RequestBody List<Order> orders) {
@@ -97,8 +93,6 @@
 //     }
 // }
 
-    
-
 //     @DeleteMapping("/delete/{id}")
 //     public String deleteOrder(@PathVariable int id) {
 //         return service.deleteOrder(id);
@@ -127,10 +121,6 @@
 
 // }
 
-
-
-
-
 package com.testRestful.restful.controller;
 
 import java.io.IOException;
@@ -153,8 +143,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.testRestful.restful.entity.Order;
 import com.testRestful.restful.service.OrderService;
 
-
-
 @RestController
 public class OrderController {
 
@@ -172,7 +160,6 @@ public class OrderController {
             return null; // หรือจัดการข้อผิดพลาดอื่น ๆ ตามที่คุณต้องการ
         }
     }
-    
 
     @PostMapping("/addOrders")
     public List<Order> addOrders(@RequestBody List<Order> orders) {
@@ -199,9 +186,10 @@ public class OrderController {
         return service.getAllMenu();
     }
 
-// OrderController.java
+    // OrderController.java
     @PutMapping("/update/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable("id") Integer id, @ModelAttribute Order order, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Order> updateOrder(@PathVariable("id") Integer id, @ModelAttribute Order order,
+            @RequestParam("file") MultipartFile file) {
         try {
             if (file != null && !file.isEmpty()) {
                 order.setFilename(file.getOriginalFilename());
@@ -213,8 +201,6 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    
 
     @DeleteMapping("/delete/{id}")
     public String deleteOrder(@PathVariable int id) {
@@ -243,5 +229,3 @@ public class OrderController {
     }
 
 }
-
-
