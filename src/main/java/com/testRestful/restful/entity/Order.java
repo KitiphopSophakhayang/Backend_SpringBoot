@@ -34,7 +34,7 @@ public class Order {
     private String filename;
 
     @Lob
-    @Column(name = "file", length = 1048576)
+    @Column(name = "file", length = 8388608)
     private byte[] data;
 
 }
