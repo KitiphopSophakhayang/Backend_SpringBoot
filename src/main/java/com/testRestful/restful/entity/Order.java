@@ -5,8 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "Order_menu")
-
 public class Order {
 
     @Id
@@ -24,11 +25,15 @@ public class Order {
     @Column(name = "menu_id") 
     private Integer id;
     
-
     private String name;
-    private String foodType;
-    private Double price;
 
+    @ManyToOne
+    @JoinColumn(name = "food_type_id")
+    private FoodType foodTypes;
+    
+    private String foodType;
+
+    private Double price;
 
     @Column(name = "file_name")
     private String filename;
@@ -36,5 +41,4 @@ public class Order {
     @Lob
     @Column(name = "file", length = 8388608)
     private byte[] data;
-
 }
