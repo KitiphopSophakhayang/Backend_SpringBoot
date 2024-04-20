@@ -19,15 +19,15 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query(value = """
             select
-            	DAYNAME(oi.order_date) as order_day,
-            	SUM(oi.total_price) as total_price
+            DAYNAME(oi.order_date) as order_day,
+            SUM(oi.total_price) as total_price
             from
-            	order_item oi
+                order_item oi
             where
-            	oi.order_date >= DATE_SUB(CURDATE(), interval (WEEKDAY(CURDATE()) + 7) day)
-            	and oi.order_date < DATE_SUB(CURDATE(), interval WEEKDAY(CURDATE()) day)
+                oi.order_date >= DATE_SUB(CURDATE(), interval (WEEKDAY(CURDATE()) + 7) day)
+                and oi.order_date < DATE_SUB(CURDATE(), interval WEEKDAY(CURDATE()) day)
             group by
-            	DAYNAME(oi.order_date)
+                DAYNAME(oi.order_date)
             """, nativeQuery = true)
     List<Object[]> getTotalPriceByWeekAndGetDayName();
 
