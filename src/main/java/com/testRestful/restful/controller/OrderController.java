@@ -228,4 +228,10 @@ public class OrderController {
         return ResponseEntity.ok(files);
     }
 
+    @GetMapping("/getFoodTypeById/{id}")
+    public List<Order> getFoodTypeById(@PathVariable("id") Integer id) {
+        return service.getByfoodTypes(id);
+    }
+    
+
 }

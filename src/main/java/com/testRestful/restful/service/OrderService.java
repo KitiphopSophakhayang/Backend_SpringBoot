@@ -191,4 +191,7 @@ public class OrderService {
         return repository.getAllMenu();
     }
 
+    public List<Order> getByfoodTypes(Integer id) {
+        return repository.getByfoodTypes(id);
+    }
 }

@@ -31,6 +31,7 @@ public class Order {
     @JoinColumn(name = "food_type_id")
     private FoodType foodTypes;
     
+    @Column(name = "food_type")
     private String foodType;
 
     private Double price;

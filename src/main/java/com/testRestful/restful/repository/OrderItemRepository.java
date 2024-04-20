@@ -17,7 +17,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query(value = "select * from order_item o where o.table_id = :tableId and o.status = 'pending' order by o.order_date desc", nativeQuery = true)
     List<OrderItem> getTableIdAndStatus(Long tableId);
 
-    @Query(value =  """
+    @Query(value = """
             select
             	DAYNAME(oi.order_date) as order_day,
             	SUM(oi.total_price) as total_price
