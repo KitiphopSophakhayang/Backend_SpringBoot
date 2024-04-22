@@ -27,7 +27,7 @@ public class OrderItem {
     private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "menu_id")
+    @JoinColumn(name = "order_id") // เปลี่ยนจาก "menu_id" เป็น "order_id"
     private Order order;
 
     private Date orderDate;
@@ -37,6 +37,10 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "table_id")
     private DiningTable table;
+
+    @ManyToOne
+    @JoinColumn(name = "details_id")
+    private Details details;
 
     private String status;
 
