@@ -69,10 +69,44 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             """, nativeQuery = true)
     List<Object[]> getTop5MenuList();
 
-    @Query(value = "select * from order_item oi where oi.status = 'pending' limit 10", nativeQuery = true)
+    @Query(value = "select * from order_item oi where oi.status = 'pending' ", nativeQuery = true)
     List<OrderItem> getOrderPending();
 
-    @Query(value = "select * from order_item oi where oi.status = 'success' limit 10", nativeQuery = true)
+    @Query(value = "select * from order_item oi where oi.status = 'success' ", nativeQuery = true)
     List<OrderItem> getOrderSuccess();
+
+    @Query(value = """
+                SELECT
+                CASE
+                    WHEN @prev_transaction_id = oi.transaction_id THEN ''
+                    ELSE oi.transaction_id
+                END AS transaction_id,
+                oi.menu_id,
+                oi.table_id,
+                CASE
+                    WHEN @prev_transaction_id = oi.transaction_id THEN NULL
+                    ELSE oi.total_price
+                END AS total_price,
+                CASE
+                    WHEN @prev_transaction_id = oi.transaction_id THEN ''
+                    ELSE oi.status
+                END AS status,
+                CASE
+                    WHEN @prev_transaction_id = oi.transaction_id THEN NULL
+                    ELSE oi.quantity
+                END AS quantity,
+                CASE
+                    WHEN @prev_transaction_id = oi.transaction_id THEN NULL
+                    ELSE oi.order_date
+                END AS order_date,
+                @prev_transaction_id := oi.transaction_id
+            FROM
+                (SELECT * FROM order_item ORDER BY transaction_id, menu_id) AS oi,
+                (SELECT @prev_transaction_id := '') AS init
+            ORDER BY
+                oi.transaction_id, oi.menu_id;
+
+                    """, nativeQuery = true)
+    List<Object[]> getOrderItemsFormatted();
 
 }

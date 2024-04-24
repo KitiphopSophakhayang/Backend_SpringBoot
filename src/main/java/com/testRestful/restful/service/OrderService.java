@@ -123,6 +123,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
+import com.testRestful.restful.repository.OrderItemRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,6 +136,14 @@ public class OrderService {
 
     @Autowired
     private OrderRepository repository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository; // เพิ่ม OrderItemRepository
+
+    // สร้างเมธอด getOrderItemsFormatted() และเชื่อมต่อกับ OrderItemRepository
+    public List<Object[]> getOrderItemsFormatted() {
+        return orderItemRepository.getOrderItemsFormatted();
+    }
 
     public Order saveOrder(Order order, MultipartFile file) {
         return repository.save(order);
