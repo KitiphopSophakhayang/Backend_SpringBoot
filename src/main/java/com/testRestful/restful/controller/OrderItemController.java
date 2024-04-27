@@ -135,10 +135,10 @@ public class OrderItemController {
         this.orderItemRepository = orderItemRepository; // กำหนดค่าให้กับ orderItemRepository ที่นี่
     }
     
-    // @GetMapping("/orderItems/getTop5MenuList")
-    // public List<Top5MenuList> getTop5MenuList() {
-    //     return orderItemService.getTop5MenuList();
-    // }
+    @GetMapping("/orderItems/getTop5MenuList")
+    public List<Top5MenuList> getTop5MenuList() {
+        return orderItemService.getTop5MenuList();
+    }
  
    // @GetMapping("/orderItems/getFormatted")
     // public ResponseEntity<List<Object[]>> getOrderItemsFormatted() {
@@ -230,10 +230,26 @@ public class OrderItemController {
     //     return new ResponseEntity<>(orderItems, HttpStatus.OK);
     // }
 
-    @GetMapping("/orderItems/getFormatted")
-    public Object getOrderItemsFormatted() {
-        return orderItemService.getOrderItemsFormatted();
+    // @GetMapping("/orderItems/getFormatted")
+    // public Object getOrderItemsFormatted() {
+    //     return orderItemService.getOrderItemsFormatted();
+    // }
+
+    @GetMapping("/orderItems/table/{tableId}/status/{status}")
+    public ResponseEntity<List<Object[]>> getOrderItemsByTableIdAndStatus(@PathVariable Long tableId, @PathVariable String status) {
+        List<Object[]> orderItems = orderItemService.getOrderItemsFormatted(tableId, status);
+        return new ResponseEntity<>(orderItems, HttpStatus.OK);
     }
-
-
+    
+    // @GetMapping("/orderItems/groupedData")
+    // public ResponseEntity<?> getGroupedOrderItems() {
+    //     List<Object[]> groupedOrderItems = orderItemService.getGroupedOrderItems();
+    //     return new ResponseEntity<>(groupedOrderItems, HttpStatus.OK);
+    // }
+    
+    @GetMapping("/orderItems/groupedData")
+    public ResponseEntity<?> getGroupedOrderItems() {
+        List<Map<String, Object>> formattedOrderItems = orderItemService.getGroupedOrderItems();
+        return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
+    }
 }

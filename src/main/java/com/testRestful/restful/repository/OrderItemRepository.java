@@ -5,6 +5,7 @@ import com.testRestful.restful.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -75,38 +76,28 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query(value = "select * from order_item oi where oi.status = 'success' ", nativeQuery = true)
     List<OrderItem> getOrderSuccess();
 
-    @Query(value = """
-                SELECT
-                CASE
-                    WHEN @prev_transaction_id = oi.transaction_id THEN ''
-                    ELSE oi.transaction_id
-                END AS transaction_id,
-                oi.menu_id,
-                oi.table_id,
-                CASE
-                    WHEN @prev_transaction_id = oi.transaction_id THEN NULL
-                    ELSE oi.total_price
-                END AS total_price,
-                CASE
-                    WHEN @prev_transaction_id = oi.transaction_id THEN ''
-                    ELSE oi.status
-                END AS status,
-                CASE
-                    WHEN @prev_transaction_id = oi.transaction_id THEN NULL
-                    ELSE oi.quantity
-                END AS quantity,
-                CASE
-                    WHEN @prev_transaction_id = oi.transaction_id THEN NULL
-                    ELSE oi.order_date
-                END AS order_date,
-                @prev_transaction_id := oi.transaction_id
-            FROM
-                (SELECT * FROM order_item ORDER BY transaction_id, menu_id) AS oi,
-                (SELECT @prev_transaction_id := '') AS init
-            ORDER BY
-                oi.transaction_id, oi.menu_id;
+    @Query(value = "SELECT oi.order_item_id, oi.order_date, oi.quantity, oi.transaction_id, oi.status, oi.total_price, om.name, om.price " +
+                "FROM order_item oi INNER JOIN order_menu om ON om.menu_id = oi.menu_id " +
+                "WHERE oi.table_id = :tableId AND (oi.status = :status)", nativeQuery = true)
+    List<Object[]> getOrderItemsFormatted(@Param("tableId") Long tableId, @Param("status") String status);
 
-                    """, nativeQuery = true)
-    List<Object[]> getOrderItemsFormatted();
-
+    @Query(value = "SELECT " +
+            "oi.transaction_id, " +
+            "oi.order_date, " +  
+            "GROUP_CONCAT(om.name) AS menu_names, " +
+            "oi.table_id, " +
+            "GROUP_CONCAT(oi.quantity) AS quantities, " +
+            "GROUP_CONCAT(oi.status) AS statuses, " +
+            "oi.total_price " +
+            "FROM order_item oi " +
+            "LEFT JOIN order_menu om ON oi.menu_id = om.menu_id " +
+            "WHERE oi.transaction_id IN ( " +
+            "SELECT oi.transaction_id " +
+            "FROM order_item oi " +
+            "GROUP BY oi.transaction_id " +
+            "HAVING COUNT(oi.transaction_id) > 1 OR COUNT(oi.transaction_id) = 1) " +
+            "AND (oi.status = 'pending' OR oi.status = 'success') " +
+            "GROUP BY oi.transaction_id " +
+            "ORDER BY oi.order_date ASC", nativeQuery = true)
+    List<Object[]> getGroupedOrderItems();
 }

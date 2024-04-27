@@ -140,11 +140,6 @@ public class OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository; // เพิ่ม OrderItemRepository
 
-    // สร้างเมธอด getOrderItemsFormatted() และเชื่อมต่อกับ OrderItemRepository
-    public List<Object[]> getOrderItemsFormatted() {
-        return orderItemRepository.getOrderItemsFormatted();
-    }
-
     public Order saveOrder(Order order, MultipartFile file) {
         return repository.save(order);
     }
