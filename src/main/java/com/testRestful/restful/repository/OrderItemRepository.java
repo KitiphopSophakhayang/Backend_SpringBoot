@@ -100,4 +100,29 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "GROUP BY oi.transaction_id " +
             "ORDER BY oi.order_date ASC", nativeQuery = true)
     List<Object[]> getGroupedOrderItems();
+
+
+    @Query(value = "SELECT " +
+            "oi.transaction_id, " +
+            "oi.order_date, " +
+            "GROUP_CONCAT(om.name) AS menu_names, " +
+            "oi.table_id, " +
+            "GROUP_CONCAT(oi.quantity) AS quantities, " +
+            "GROUP_CONCAT(oi.status) AS statuses, " +
+            "oi.total_price, " +
+            "oi.payment_status " +
+            "FROM order_item oi " +
+            "LEFT JOIN order_menu om ON oi.menu_id = om.menu_id " +
+            "WHERE oi.transaction_id IN ( " +
+            "SELECT oi.transaction_id " +
+            "FROM order_item oi " +
+            "GROUP BY oi.transaction_id " +
+            "HAVING COUNT(oi.transaction_id) > 1 OR COUNT(oi.transaction_id) = 1) " +
+            "AND (oi.status = 'pending' OR oi.status = 'success') " +
+            "AND oi.payment_status = 'complete' " +
+            "GROUP BY oi.transaction_id " +
+            "ORDER BY oi.order_date ASC", nativeQuery = true)
+    List<Object[]> getCompleteGroupedOrderItems();
 }
+
+

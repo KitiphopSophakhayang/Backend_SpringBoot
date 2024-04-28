@@ -268,4 +268,11 @@ public class OrderItemController {
         return orderItemService.updateOrderPaymentStatus(updOrderItemPayment.getOrderItemIds(), updOrderItemPayment.getStatus());
     }
 
+    @GetMapping("/orderItems/completeGroupedData")
+    public ResponseEntity<?> getCompleteGroupedOrderItems() {
+        List<Object[]> completeGroupedOrderItems = orderItemService.getCompleteGroupedOrderItems();
+        return new ResponseEntity<>(completeGroupedOrderItems, HttpStatus.OK);
+    }
+    
+    
 }

@@ -185,6 +185,14 @@ public class OrderItemService {
         return formattedOrderItems;
     }
 
+
+    public List<Object[]> getCompleteGroupedOrderItems() {
+        return orderItemRepository.getCompleteGroupedOrderItems();
+    }
+    
+    
+
+
     public List<Object[]> getOrderItemsFormatted(Long tableId, String status) {
         return orderItemRepository.getOrderItemsFormatted(tableId, status);
     }
