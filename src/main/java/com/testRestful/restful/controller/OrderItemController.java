@@ -102,6 +102,7 @@ package com.testRestful.restful.controller;
 
 import com.testRestful.restful.entity.OrderItem;
 import com.testRestful.restful.models.Top5MenuList;
+import com.testRestful.restful.models.UpdOrderItemPayment;
 import com.testRestful.restful.models.UpdOrderStatusBean;
 import com.testRestful.restful.service.OrderItemService;
 import com.testRestful.restful.repository.OrderItemRepository; // Import OrderItemRepository
@@ -259,4 +260,11 @@ public class OrderItemController {
         List<Map<String, Object>> formattedOrderItems = orderItemService.getGroupedOrderItems();
         return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
     }
+
+    @PutMapping("/orderItems/updateOrderPaymentStatus")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<OrderItem> updateOrderPaymentStatus(@RequestBody UpdOrderItemPayment updOrderItemPayment) {
+        return orderItemService.updateOrderPaymentStatus(updOrderItemPayment.getOrderItemIds(), updOrderItemPayment.getStatus());
+    }
+
 }

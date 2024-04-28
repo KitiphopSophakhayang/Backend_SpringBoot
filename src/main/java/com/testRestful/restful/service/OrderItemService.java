@@ -290,4 +290,13 @@ public class OrderItemService {
         }
         return true;
     }
+
+    public List<OrderItem> updateOrderPaymentStatus(List<Long> orderItemIds, String status) {
+        List<OrderItem> orderItemResultList = orderItemRepository.findAllById(orderItemIds);
+        for (OrderItem orderItem : orderItemResultList) {
+            orderItem.setPayment_status(status);
+        }
+        orderItemRepository.saveAll(orderItemResultList);
+        return orderItemResultList;
+    }
 }
