@@ -268,11 +268,16 @@ public class OrderItemController {
         return orderItemService.updateOrderPaymentStatus(updOrderItemPayment.getOrderItemIds(), updOrderItemPayment.getStatus());
     }
 
+    // @GetMapping("/orderItems/completeGroupedData")
+    // public ResponseEntity<?> getCompleteGroupedOrderItems() {
+    //     List<Object[]> completeGroupedOrderItems = orderItemService.getCompleteGroupedOrderItems();
+    //     return new ResponseEntity<>(completeGroupedOrderItems, HttpStatus.OK);
+    // }
+    
     @GetMapping("/orderItems/completeGroupedData")
     public ResponseEntity<?> getCompleteGroupedOrderItems() {
-        List<Object[]> completeGroupedOrderItems = orderItemService.getCompleteGroupedOrderItems();
+        List<Map<String, Object>> completeGroupedOrderItems = orderItemService.getCompleteGroupedOrderItems(); // เรียกใช้เมทอดที่ถูกแก้ชื่อแล้ว
         return new ResponseEntity<>(completeGroupedOrderItems, HttpStatus.OK);
     }
-    
     
 }

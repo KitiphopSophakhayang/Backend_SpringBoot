@@ -167,18 +167,20 @@ public class OrderItemService {
 
         for (Object[] item : groupedOrderItems) {
             Map<String, Object> formattedItem = new HashMap<>();
-            formattedItem.put("transaction_id", item[0]);
+            formattedItem.put("order_item_id", item[0]);
+            formattedItem.put("transaction_id", item[1]);
 
+            formattedItem.put("payment_status", item[2]);
             // Convert Unix timestamp to LocalDateTime
-            Timestamp timestamp = (Timestamp) item[1];
+            Timestamp timestamp = (Timestamp) item[3];
             LocalDateTime orderDate = timestamp.toLocalDateTime();
             formattedItem.put("order_date", orderDate);
 
-            formattedItem.put("menu_names", item[2]);
-            formattedItem.put("table_id", item[3]);
-            formattedItem.put("quantities", item[4]);
-            formattedItem.put("statuses", item[5]);
-            formattedItem.put("total_price", item[6]);
+            formattedItem.put("menu_names", item[4]);
+            formattedItem.put("table_id", item[5]);
+            formattedItem.put("quantities", item[6]);
+            formattedItem.put("statuses", item[7]);
+            formattedItem.put("total_price", item[8]);
             formattedOrderItems.add(formattedItem);
         }
 
@@ -186,9 +188,31 @@ public class OrderItemService {
     }
 
 
-    public List<Object[]> getCompleteGroupedOrderItems() {
-        return orderItemRepository.getCompleteGroupedOrderItems();
+    public List<Map<String, Object>> getCompleteGroupedOrderItems() {
+        List<Object[]> groupedOrderItems = orderItemRepository.getCompleteGroupedOrderItems();
+        List<Map<String, Object>> formattedOrderItems = new ArrayList<>();
+    
+        for (Object[] item : groupedOrderItems) {
+            Map<String, Object> formattedItem = new HashMap<>();
+            formattedItem.put("transaction_id", item[0]);
+    
+            // Convert Unix timestamp to LocalDateTime
+            Timestamp timestamp = (Timestamp) item[1];
+            LocalDateTime orderDate = timestamp.toLocalDateTime();
+            formattedItem.put("order_date", orderDate);
+    
+            formattedItem.put("menu_names", item[2]);
+            formattedItem.put("table_id", item[3]);
+            formattedItem.put("quantities", item[4]);
+            formattedItem.put("statuses", item[5]);
+            formattedItem.put("total_price", item[6]);
+            formattedOrderItems.add(formattedItem);
+        }
+    
+        return formattedOrderItems;
     }
+    
+    
     
     
 

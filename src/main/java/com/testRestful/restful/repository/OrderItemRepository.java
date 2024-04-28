@@ -76,31 +76,43 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query(value = "select * from order_item oi where oi.status = 'success' ", nativeQuery = true)
     List<OrderItem> getOrderSuccess();
 
-    @Query(value = "SELECT oi.order_item_id, oi.order_date, oi.quantity, oi.transaction_id, oi.status, oi.total_price, om.name, om.price " +
-                "FROM order_item oi INNER JOIN order_menu om ON om.menu_id = oi.menu_id " +
-                "WHERE oi.table_id = :tableId AND (oi.status = :status)", nativeQuery = true)
+    @Query(value = "SELECT oi.order_item_id, oi.order_date, oi.quantity, oi.transaction_id, oi.status, oi.total_price, om.name, om.price "
+            +
+            "FROM order_item oi INNER JOIN order_menu om ON om.menu_id = oi.menu_id " +
+            "WHERE oi.table_id = :tableId AND (oi.status = :status)", nativeQuery = true)
     List<Object[]> getOrderItemsFormatted(@Param("tableId") Long tableId, @Param("status") String status);
 
-    @Query(value = "SELECT " +
-            "oi.transaction_id, " +
-            "oi.order_date, " +  
-            "GROUP_CONCAT(om.name) AS menu_names, " +
-            "oi.table_id, " +
-            "GROUP_CONCAT(oi.quantity) AS quantities, " +
-            "GROUP_CONCAT(oi.status) AS statuses, " +
-            "oi.total_price " +
-            "FROM order_item oi " +
-            "LEFT JOIN order_menu om ON oi.menu_id = om.menu_id " +
-            "WHERE oi.transaction_id IN ( " +
-            "SELECT oi.transaction_id " +
-            "FROM order_item oi " +
-            "GROUP BY oi.transaction_id " +
-            "HAVING COUNT(oi.transaction_id) > 1 OR COUNT(oi.transaction_id) = 1) " +
-            "AND (oi.status = 'pending' OR oi.status = 'success') " +
-            "GROUP BY oi.transaction_id " +
-            "ORDER BY oi.order_date ASC", nativeQuery = true)
+    @Query(value = """
+                    SELECT
+                    oi.order_item_id,
+                    oi.transaction_id,	
+                    oi.payment_status,
+                    oi.order_date,
+                    GROUP_CONCAT(om.name) AS menu_names,
+                    oi.table_id,
+                    GROUP_CONCAT(oi.quantity) AS quantities,
+                    GROUP_CONCAT(oi.status) AS statuses,
+                    oi.total_price
+                    FROM
+                        order_item oi
+                    LEFT JOIN
+                        order_menu om ON oi.menu_id = om.menu_id
+                    WHERE
+                        oi.transaction_id IN (
+                            SELECT
+                                oi.transaction_id
+                            FROM
+                                order_item oi
+                            GROUP BY
+                                oi.transaction_id
+                            HAVING
+                                COUNT(oi.transaction_id) > 1 OR COUNT(oi.transaction_id) = 1
+                        )
+                        AND (oi.status = 'pending' OR oi.status = 'success')
+                    GROUP BY
+                        oi.transaction_id;
+            """, nativeQuery = true)
     List<Object[]> getGroupedOrderItems();
-
 
     @Query(value = "SELECT " +
             "oi.transaction_id, " +
@@ -124,5 +136,3 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "ORDER BY oi.order_date ASC", nativeQuery = true)
     List<Object[]> getCompleteGroupedOrderItems();
 }
-
-
