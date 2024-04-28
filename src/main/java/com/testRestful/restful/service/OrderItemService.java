@@ -124,7 +124,6 @@
 //     }
 // }
 
-
 package com.testRestful.restful.service;
 
 import com.testRestful.restful.entity.OrderItem;
@@ -139,7 +138,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -160,22 +158,22 @@ public class OrderItemService {
     private OrderItemRepository orderItemRepository; // เพิ่ม OrderItemRepository
 
     // public List<Object[]> getGroupedOrderItems() {
-    //     return orderItemRepository.getGroupedOrderItems();
+    // return orderItemRepository.getGroupedOrderItems();
     // }
 
     public List<Map<String, Object>> getGroupedOrderItems() {
         List<Object[]> groupedOrderItems = orderItemRepository.getGroupedOrderItems();
         List<Map<String, Object>> formattedOrderItems = new ArrayList<>();
-    
+
         for (Object[] item : groupedOrderItems) {
             Map<String, Object> formattedItem = new HashMap<>();
             formattedItem.put("transaction_id", item[0]);
-            
+
             // Convert Unix timestamp to LocalDateTime
             Timestamp timestamp = (Timestamp) item[1];
             LocalDateTime orderDate = timestamp.toLocalDateTime();
             formattedItem.put("order_date", orderDate);
-            
+
             formattedItem.put("menu_names", item[2]);
             formattedItem.put("table_id", item[3]);
             formattedItem.put("quantities", item[4]);
@@ -183,18 +181,17 @@ public class OrderItemService {
             formattedItem.put("total_price", item[6]);
             formattedOrderItems.add(formattedItem);
         }
-    
+
         return formattedOrderItems;
     }
 
     public List<Object[]> getOrderItemsFormatted(Long tableId, String status) {
         return orderItemRepository.getOrderItemsFormatted(tableId, status);
     }
-    
-    
+
     // // สร้างเมธอด getOrderItemsFormatted() และเชื่อมต่อกับ OrderItemRepository
     // public List<Object[]> getOrderItemsFormatted() {
-    //     return orderItemRepository.getOrderItemsFormatted();
+    // return orderItemRepository.getOrderItemsFormatted();
     // }
 
     public void saveOrderItems(OrderItem[] orderItems, String transactionId) {

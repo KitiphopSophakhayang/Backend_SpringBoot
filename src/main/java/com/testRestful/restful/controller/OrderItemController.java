@@ -105,6 +105,7 @@ import com.testRestful.restful.models.Top5MenuList;
 import com.testRestful.restful.models.UpdOrderStatusBean;
 import com.testRestful.restful.service.OrderItemService;
 import com.testRestful.restful.repository.OrderItemRepository; // Import OrderItemRepository
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -134,23 +135,26 @@ public class OrderItemController {
         this.orderItemService = orderItemService;
         this.orderItemRepository = orderItemRepository; // กำหนดค่าให้กับ orderItemRepository ที่นี่
     }
-    
+
     @GetMapping("/orderItems/getTop5MenuList")
     public List<Top5MenuList> getTop5MenuList() {
         return orderItemService.getTop5MenuList();
     }
- 
-   // @GetMapping("/orderItems/getFormatted")
+
+    // @GetMapping("/orderItems/getFormatted")
     // public ResponseEntity<List<Object[]>> getOrderItemsFormatted() {
-    //     List<Object[]> formattedOrderItems = orderItemRepository.getOrderItemsFormatted();
-    //     return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
+    // List<Object[]> formattedOrderItems =
+    // orderItemRepository.getOrderItemsFormatted();
+    // return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
     // }
 
-    // // เพิ่มเมธอดเพื่อเรียกใช้ getOrderItemsFormatted() ที่อยู่ใน OrderItemRepository
+    // // เพิ่มเมธอดเพื่อเรียกใช้ getOrderItemsFormatted() ที่อยู่ใน
+    // OrderItemRepository
     // @GetMapping("/formatted")
     // public ResponseEntity<List<Object[]>> getOrderItemsFormatted() {
-    //     List<Object[]> formattedOrderItems = orderItemRepository.getOrderItemsFormatted();
-    //     return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
+    // List<Object[]> formattedOrderItems =
+    // orderItemRepository.getOrderItemsFormatted();
+    // return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
     // }
 
     @PostMapping("/orderItems")
@@ -204,7 +208,7 @@ public class OrderItemController {
 
     // @GetMapping("/orderItems/getTop5MenuList")
     // public List<Top5MenuList> getTop5MenuList() {
-    //     return orderItemService.getTop5MenuList();
+    // return orderItemService.getTop5MenuList();
     // }
 
     @GetMapping("/orderItems/getOrderStatus")
@@ -220,33 +224,36 @@ public class OrderItemController {
 
     // @GetMapping("/orderItems/getFormatted")
     // public ResponseEntity<List<Object[]>> getOrderItemsFormatted() {
-    //     List<Object[]> formattedOrderItems = orderItemService.getOrderItemsFormatted(); // เรียกใช้งานผ่าน OrderItemService
-    //     return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
+    // List<Object[]> formattedOrderItems =
+    // orderItemService.getOrderItemsFormatted(); // เรียกใช้งานผ่าน
+    // OrderItemService
+    // return new ResponseEntity<>(formattedOrderItems, HttpStatus.OK);
     // }
 
     // @GetMapping("/orderItems")
     // public ResponseEntity<List<OrderItem>> getOrderItems() {
-    //     List<OrderItem> orderItems = orderItemService.getAllOrderItems();
-    //     return new ResponseEntity<>(orderItems, HttpStatus.OK);
+    // List<OrderItem> orderItems = orderItemService.getAllOrderItems();
+    // return new ResponseEntity<>(orderItems, HttpStatus.OK);
     // }
 
     // @GetMapping("/orderItems/getFormatted")
     // public Object getOrderItemsFormatted() {
-    //     return orderItemService.getOrderItemsFormatted();
+    // return orderItemService.getOrderItemsFormatted();
     // }
 
     @GetMapping("/orderItems/table/{tableId}/status/{status}")
-    public ResponseEntity<List<Object[]>> getOrderItemsByTableIdAndStatus(@PathVariable Long tableId, @PathVariable String status) {
+    public ResponseEntity<List<Object[]>> getOrderItemsByTableIdAndStatus(@PathVariable Long tableId,
+            @PathVariable String status) {
         List<Object[]> orderItems = orderItemService.getOrderItemsFormatted(tableId, status);
         return new ResponseEntity<>(orderItems, HttpStatus.OK);
     }
-    
+
     // @GetMapping("/orderItems/groupedData")
     // public ResponseEntity<?> getGroupedOrderItems() {
-    //     List<Object[]> groupedOrderItems = orderItemService.getGroupedOrderItems();
-    //     return new ResponseEntity<>(groupedOrderItems, HttpStatus.OK);
+    // List<Object[]> groupedOrderItems = orderItemService.getGroupedOrderItems();
+    // return new ResponseEntity<>(groupedOrderItems, HttpStatus.OK);
     // }
-    
+
     @GetMapping("/orderItems/groupedData")
     public ResponseEntity<?> getGroupedOrderItems() {
         List<Map<String, Object>> formattedOrderItems = orderItemService.getGroupedOrderItems();
