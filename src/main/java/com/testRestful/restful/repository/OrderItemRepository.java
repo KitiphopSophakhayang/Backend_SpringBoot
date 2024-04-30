@@ -82,37 +82,72 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "WHERE oi.table_id = :tableId AND (oi.status = :status)", nativeQuery = true)
     List<Object[]> getOrderItemsFormatted(@Param("tableId") Long tableId, @Param("status") String status);
 
+    // @Query(value = """
+    //                 SELECT
+    //                 oi.order_item_id,
+    //                 oi.transaction_id,	
+    //                 oi.payment_status,
+    //                 oi.order_date,
+    //                 GROUP_CONCAT(om.name) AS menu_names,
+    //                 oi.table_id,
+    //                 GROUP_CONCAT(oi.quantity) AS quantities,
+    //                 GROUP_CONCAT(oi.status) AS statuses,
+    //                 oi.total_price
+    //                 FROM
+    //                     order_item oi
+    //                 LEFT JOIN
+    //                     order_menu om ON oi.menu_id = om.menu_id
+    //                 WHERE
+    //                     oi.transaction_id IN (
+    //                         SELECT
+    //                             oi.transaction_id
+    //                         FROM
+    //                             order_item oi
+    //                         GROUP BY
+    //                             oi.transaction_id
+    //                         HAVING
+    //                             COUNT(oi.transaction_id) > 1 OR COUNT(oi.transaction_id) = 1
+    //                     )
+    //                     AND (oi.status = 'pending' OR oi.status = 'success')
+    //                 GROUP BY
+    //                     oi.transaction_id;
+    //         """, nativeQuery = true)
+    // List<Object[]> getGroupedOrderItems();
+
     @Query(value = """
-                    SELECT
-                    oi.order_item_id,
-                    oi.transaction_id,	
+        select
+                    group_concat(oi.order_item_id) as order_item_id ,
+                    oi.transaction_id,
                     oi.payment_status,
                     oi.order_date,
-                    GROUP_CONCAT(om.name) AS menu_names,
+                    GROUP_CONCAT(om.name) as menu_names,
                     oi.table_id,
-                    GROUP_CONCAT(oi.quantity) AS quantities,
-                    GROUP_CONCAT(oi.status) AS statuses,
+                    GROUP_CONCAT(oi.quantity) as quantities,
+                    GROUP_CONCAT(oi.status) as statuses,
                     oi.total_price
-                    FROM
+                from
+                    order_item oi
+                left join
+                                        order_menu om on
+                    oi.menu_id = om.menu_id
+                where
+                    oi.transaction_id in (
+                    select
+                        oi.transaction_id
+                    from
                         order_item oi
-                    LEFT JOIN
-                        order_menu om ON oi.menu_id = om.menu_id
-                    WHERE
-                        oi.transaction_id IN (
-                            SELECT
-                                oi.transaction_id
-                            FROM
-                                order_item oi
-                            GROUP BY
-                                oi.transaction_id
-                            HAVING
-                                COUNT(oi.transaction_id) > 1 OR COUNT(oi.transaction_id) = 1
-                        )
-                        AND (oi.status = 'pending' OR oi.status = 'success')
-                    GROUP BY
-                        oi.transaction_id;
-            """, nativeQuery = true)
-    List<Object[]> getGroupedOrderItems();
+                    group by
+                        oi.transaction_id
+                    having
+                        COUNT(oi.transaction_id) > 1
+                            or COUNT(oi.transaction_id) = 1
+                                        )
+                    and (oi.status = 'pending'
+                        or oi.status = 'success')
+                group by
+                    oi.transaction_id;          
+""", nativeQuery = true)
+List<Object[]> getGroupedOrderItems();
 
     @Query(value = "SELECT " +
             "oi.transaction_id, " +
